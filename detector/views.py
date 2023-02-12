@@ -20,7 +20,13 @@ def upload_files(request):
     if request.method == 'POST':
         if request.FILES:
             dc_dfs = Calculation.to_dc(request.FILES.getlist('myfiles'))
+
+            if isinstance(dc_dfs, Exception):
+                wrong = True
+            else:
+                wrong = False
             context = {
+                'wrong': wrong,
                 'dict_list': dc_dfs,
                 'your_sheets': Products.objects.filter(
                 ).values('dealer_name', 'shape', 'filename').distinct()
@@ -62,7 +68,6 @@ def remove(request, id):
     FileNames.objects.get(pk=id).delete()
 
     return redirect('detector:upload')
-
 
 
 def detect(request):

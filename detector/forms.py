@@ -3,13 +3,10 @@ from .models import Document
 
 
 class DocumentForm(forms.ModelForm):
-    class Meta:
-        model = Document
-        fields = ('document',)
-
     document = forms.FileField(widget=forms.FileInput(attrs={
         'class': 'custom-file-input',
         'multiple': True,
+        'name': 'myfiles',
     }), required=True)
 
 

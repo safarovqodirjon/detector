@@ -7,6 +7,8 @@ from detector.models import FileNames, Products
 from .list import get_list
 
 engine = create_engine(f'sqlite:///{settings.DATABASES["default"]["NAME"]}', echo=False)
+
+
 # engine = create_engine("postgresql+psycopg2://yimpwzehvxdnpd:1230e673eef1483094982314c43771209f4aec1193de94b180e5dcbe3a55435c@ec2-3-248-121-12.eu-west-1.compute.amazonaws.com:5432/dbjulh0nu26mt8", echo=False)
 
 class Calculation:
@@ -26,7 +28,6 @@ class Calculation:
         df_lst, all_dfs = list(), list()
         for file in files:
             format = str(file.name).split(sep='.')
-            print(format[-1])
             try:
                 if format[-1] == 'xlsx':
                     df = pd.read_excel(file)
@@ -36,9 +37,9 @@ class Calculation:
                     except Exception as ex:
                         df = pd.read_csv(file, sep=';', encoding='utf-8')
                 else:
-                    raise Exception("UnknownFormat")
+                    raise Exception('WrongFormant')
             except Exception as ex:
-                return str(ex)
+                return ex
 
             col_list = list(df.columns)
             if get_list()['faro'] == col_list:
