@@ -1,1 +1,1 @@
-web: gunicorn --timeout 960 core.wsgi --log-file=-
+web: gunicorn --timeout 960 spare_parts.wsgi --log-file=-
