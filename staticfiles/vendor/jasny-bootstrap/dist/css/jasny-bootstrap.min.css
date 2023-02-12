@@ -97,7 +97,7 @@
 }
 .nav-tabs-bottom {
   border-bottom: 0;
-  border-top: 1px solid #dddddd;
+  border-top: 1px solid #ffffff;
 }
 .nav-tabs-bottom > li {
   margin-bottom: 0;
@@ -111,12 +111,12 @@
 .nav-tabs-bottom > li.active > a,
 .nav-tabs-bottom > li.active > a:hover,
 .nav-tabs-bottom > li.active > a:focus {
-  border: 1px solid #dddddd;
+  border: 1px solid #ffffff;
   border-top-color: transparent;
 }
 .nav-tabs-left {
   border-bottom: 0;
-  border-right: 1px solid #dddddd;
+  border-right: 1px solid #ffffff;
 }
 .nav-tabs-left > li {
   margin-bottom: 0;
@@ -133,7 +133,7 @@
 .nav-tabs-left > li.active > a,
 .nav-tabs-left > li.active > a:hover,
 .nav-tabs-left > li.active > a:focus {
-  border: 1px solid #dddddd;
+  border: 1px solid #ffffff;
   border-right-color: transparent;
 }
 .row > .nav-tabs-left {
@@ -144,11 +144,11 @@
   z-index: 1;
 }
 .row > .nav-tabs-left + .tab-content {
-  border-left: 1px solid #dddddd;
+  border-left: 1px solid #ffffff;
 }
 .nav-tabs-right {
   border-bottom: 0;
-  border-left: 1px solid #dddddd;
+  border-left: 1px solid #ffffff;
 }
 .nav-tabs-right > li {
   margin-bottom: 0;
@@ -165,7 +165,7 @@
 .nav-tabs-right > li.active > a,
 .nav-tabs-right > li.active > a:hover,
 .nav-tabs-right > li.active > a:focus {
-  border: 1px solid #dddddd;
+  border: 1px solid #ffffff;
   border-left-color: transparent;
 }
 .row > .nav-tabs-right {

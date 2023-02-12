@@ -177,7 +177,7 @@
     &.disabled a{
         color: #333333 !important;
         background: #F7FAFC !important;
-        border: 1px solid #EEEEEE;
+        border: 1px solid #ffffff;
 
         @at-root [data-theme-version="dark"] & {
             background: $d-bg !important;
