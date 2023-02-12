@@ -6,8 +6,8 @@ import datetime
 from detector.models import FileNames, Products
 from .list import get_list
 
-engine = create_engine(f'sqlite:///{settings.DATABASES["default"]["NAME"]}', echo=False)
-
+# engine = create_engine(f'sqlite:///{settings.DATABASES["default"]["NAME"]}', echo=False)
+engine = create_engine("postgresql+psycopg2://yimpwzehvxdnpd:1230e673eef1483094982314c43771209f4aec1193de94b180e5dcbe3a55435c@ec2-3-248-121-12.eu-west-1.compute.amazonaws.com:5432/dbjulh0nu26mt8", echo=False)
 
 class Calculation:
     @staticmethod
