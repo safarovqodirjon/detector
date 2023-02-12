@@ -6,10 +6,12 @@ import datetime
 from detector.models import FileNames, Products
 from .list import get_list
 
-engine = create_engine(f'sqlite:///{settings.DATABASES["default"]["NAME"]}', echo=False)
+# engine = create_engine(f'sqlite:///{settings.DATABASES["default"]["NAME"]}', echo=False)
 
 
 # engine = create_engine("postgresql+psycopg2://yimpwzehvxdnpd:1230e673eef1483094982314c43771209f4aec1193de94b180e5dcbe3a55435c@ec2-3-248-121-12.eu-west-1.compute.amazonaws.com:5432/dbjulh0nu26mt8", echo=False)
+engine = create_engine("postgresql+psycopg2://postgres:root@localhost:5432/detectordb", echo=False)
+
 
 class Calculation:
     @staticmethod
@@ -146,3 +148,7 @@ class Calculation:
         uniq.to_sql('detector_products', engine, if_exists='replace', index=False, index_label=None, method=None)
 
         return uniq
+
+    @staticmethod
+    def download():
+        return pd.read_sql_table(con=engine, table_name='detector_products')

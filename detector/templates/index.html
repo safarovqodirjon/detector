@@ -46,73 +46,76 @@
                             {#                            {% include 'includes/merge.html' %}#}
                         </div>
                     </div>
+                    {% if not checked %}
 
-                    {% if dict_list %}
-                        <div class="row">
-                            <div class="col-xl-6 col-xxl-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h4 class="card-title">Uploaded files</h4>
-                                    </div>
-                                    <div class="card-body">
-                                        {% if wrong == False %}
+                        {% if dict_list %}
+                            <div class="row">
+                                <div class="col-xl-6 col-xxl-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4 class="card-title">Uploaded files</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            {% if wrong == False %}
 
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered table-responsive-sm text-dark"
-                                                       style="border: #0c0c0c">
-                                                    <thead>
-                                                    <tr>
-                                                        <th>Name</th>
-                                                        <th>FileName</th>
-                                                        <th>FileShape</th>
-                                                        <th>Remove</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    {% for item in dict_list %}
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered table-responsive-sm text-dark"
+                                                           style="border: #0c0c0c">
+                                                        <thead>
                                                         <tr>
-                                                            <td><a>{{ item.dealer_name }}</a></td>
-                                                            <td><a>{{ item.filename }}</a></td>
-                                                            <td>{{ item.shape }}</td>
-                                                            <td>
-                                                                <a class="btn btn-default btn-sm"
-                                                                   style="background-color: grey"
-                                                                   href="{% url 'detector:see' item.id %}">
-                                                                    See
-                                                                </a>
-
-                                                                <a class="btn btn-default btn-sm"
-                                                                   style="background-color: grey"
-                                                                   methods="GET"
-                                                                   href="{% url 'detector:remove' item.id %}">
-                                                                    Remove
-                                                                </a>
-
-                                                            </td>
-
+                                                            <th>Name</th>
+                                                            <th>FileName</th>
+                                                            <th>FileShape</th>
+                                                            <th>Remove</th>
                                                         </tr>
-                                                    {% endfor %}
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                                        </thead>
+                                                        <tbody>
+                                                        {% for item in dict_list %}
+                                                            <tr>
+                                                                <td><a>{{ item.dealer_name }}</a></td>
+                                                                <td><a>{{ item.filename }}</a></td>
+                                                                <td>{{ item.shape }}</td>
+                                                                <td>
+                                                                    <a class="btn btn-default btn-sm"
+                                                                       style="background-color: grey"
+                                                                       href="{% url 'detector:see' item.id %}">
+                                                                        See
+                                                                    </a>
+
+                                                                    <a class="btn btn-default btn-sm"
+                                                                       style="background-color: grey"
+                                                                       methods="POST"
+                                                                       href="{% url 'detector:remove' item.id %}">
+                                                                        Remove
+                                                                    </a>
+
+                                                                </td>
+
+                                                            </tr>
+                                                        {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
 
 
-                                            <div class="input-group-prepend">
-                                                <a class="btn btn-primary" href="{% url 'detector:load' %}">Confirm</a>
-                                            </div>
+                                                <div class="input-group-prepend">
+                                                    <a class="btn btn-primary"
+                                                       href="{% url 'detector:load' %}">Confirm</a>
+                                                </div>
 
 
-                                        {% elif wrong == True %}
-                                            <div class="alert alert-primary">
-                                                <strong>Error!</strong>
-                                                Only *xlsx and *csv file allowed
-                                            </div>
-                                        {% endif %}
+                                            {% elif wrong == True %}
+                                                <div class="alert alert-primary">
+                                                    <strong>Error!</strong>
+                                                    Only *xlsx and *csv file allowed
+                                                </div>
+                                            {% endif %}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
+                        {% endif %}
                     {% endif %}
 
                     <div class="row">
@@ -151,9 +154,11 @@
                                         </table>
                                     </div>
                                     <div class="input-group-prepend">
-                                        {#                                        <a class="btn btn-primary"#}
-                                        {#                                           href="{% url 'detector:load' %}">Confirm</a>#}
-                                        {#                                    </div>#}
+                                        <a class="btn btn-default btn-sm"
+                                           style="background-color: grey"
+                                           href="{% url 'detector:download' %}">
+                                            Download
+                                        </a>
                                     </div>
                                 </div>
                             </div>

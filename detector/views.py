@@ -32,12 +32,25 @@ def upload_files(request):
                 ).values('dealer_name', 'shape', 'filename').distinct()
             }
             return render(request, 'index.html', context=context)
+
     else:
+
+        dc_dfs = FileNames.objects.all()
+        for dc in dc_dfs:
+            print(dc.filename, dc.shape)
+        if isinstance(dc_dfs, Exception):
+            wrong = True
+        else:
+            wrong = False
+
         context = {
-            'dict_list': FileNames.objects.all(),
+            'wrong': wrong,
+            'checked': False,
+            'dict_list': dc_dfs,
             'your_sheets': Products.objects.filter(
             ).values('dealer_name', 'shape', 'filename').distinct()
         }
+
         return render(request, 'index.html', context=context)
 
 
@@ -62,12 +75,24 @@ def see(request, id):
 
 
 def remove(request, id):
-    path = FileNames.objects.values('filename').get(pk=id)['filename'].split(sep='.')[0] + '.csv'
-    abs = os.path.join(settings.MEDIA_ROOT, f"documents/temp/{path}")
-    os.remove(abs)
-    FileNames.objects.get(pk=id).delete()
-
+    try:
+        path = FileNames.objects.values('filename').get(pk=id)['filename'].split(sep='.')[0] + '.csv'
+        abs = os.path.join(settings.MEDIA_ROOT, f"documents/temp/{path}")
+        os.remove(abs)
+        FileNames.objects.get(pk=id).delete()
+    except Exception as ex:
+        pass
     return redirect('detector:upload')
+
+
+def download(request):
+    response = HttpResponse(content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = f'attachment; filename=all_files.xlsx'
+    result = Calculation.download()
+    result['last_modified'] = result['last_modified'].astype('str')
+    result.to_excel(response, index=False)
+    # result.head()
+    return response
 
 
 def detect(request):
