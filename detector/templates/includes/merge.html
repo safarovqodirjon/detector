@@ -1,0 +1,36 @@
+<div class="basic-form custom_file_input">
+    <form action="{% url 'detector:detect' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label class="text-dark h4">Choose your list</label>
+                <label for="inputState"></label>
+                <select id="inputState"
+                        class="form-control" name="main_df">
+                    {% for item in file_list %}
+                        <option value="{{ item.id }}">{{ item }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label class="text-dark h4">Choose dialer-list</label>
+
+                {% for item in file_list %}
+                    <div class="form-check mb-2">
+                        <input type="checkbox" class="form-check-input" id="check1"
+                               name="names"
+                               value="{{ item.id }}" checked>
+                        <label class="form-check-label text-dark"
+                               for="check1">{{ item }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <button type="submit" class="btn btn-primary">Detect</button>
+
+    </form>
+</div>
