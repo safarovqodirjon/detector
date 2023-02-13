@@ -29,7 +29,7 @@ def upload_files(request):
                 'wrong': wrong,
                 'dict_list': dc_dfs,
                 'your_sheets': Products.objects.filter(
-                ).values('dealer_name', 'shape', 'filename').distinct()
+                ).values('dealer_name', 'shape', 'filename', 'last_modified').distinct()
             }
             return render(request, 'index.html', context=context)
 
@@ -48,7 +48,7 @@ def upload_files(request):
             'checked': False,
             'dict_list': dc_dfs,
             'your_sheets': Products.objects.filter(
-            ).values('dealer_name', 'shape', 'filename').distinct()
+            ).values('dealer_name', 'shape', 'filename', 'last_modified').distinct()
         }
 
         return render(request, 'index.html', context=context)
