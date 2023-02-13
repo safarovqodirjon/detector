@@ -3,7 +3,6 @@ from .models import Document, FileNames, Products
 import pandas as pd
 import os
 from django.conf import settings
-
 from .modules.calculation import Calculation
 
 
@@ -11,7 +10,7 @@ from .modules.calculation import Calculation
 def index(request):
     context = {
         'your_sheets': Products.objects.filter(
-        ).values('dealer_name', 'shape', 'filename').distinct()
+        ).values('dealer_name', 'shape', 'filename', 'last_modified').distinct()
     }
     return render(request, 'index.html', context=context)
 
@@ -20,7 +19,6 @@ def upload_files(request):
     if request.method == 'POST':
         if request.FILES:
             dc_dfs = Calculation.to_dc(request.FILES.getlist('myfiles'))
-
             if isinstance(dc_dfs, Exception):
                 wrong = True
             else:
@@ -32,7 +30,6 @@ def upload_files(request):
                 ).values('dealer_name', 'shape', 'filename', 'last_modified').distinct()
             }
             return render(request, 'index.html', context=context)
-
     else:
 
         dc_dfs = FileNames.objects.all()

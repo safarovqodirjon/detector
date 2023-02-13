@@ -54,13 +54,18 @@ class Calculation:
                 dialer_name = 'apex'
             else:
                 dialer_name = 'unknown'
+
             try:
                 df.insert(loc=0, column='shape', value=f'{df.shape}')
                 df.insert(loc=0, column='filename', value=f'{file.name}')
                 df.insert(loc=0, column='filename2', value=f'{str(file.name).split(sep=".")[0] + ".csv"}')
                 df.insert(loc=0, column='dealer_name', value=f'{dialer_name}')
             except Exception as ex:
-                pass
+                df['shape'] = str(df.shape)
+                df['filename'] = str(file.name)
+                df['filename2'] = str(file.name).split(sep=".")[0] + ".csv"
+                df['dealer_name'] = str(dialer_name)
+                print(df['dealer_name'])
             sep = '.'
             df.to_csv(
                 f'{os.path.join(settings.MEDIA_ROOT, f"documents/temp/{str(file.name).split(sep=sep)[0]}.csv")}',
@@ -75,7 +80,7 @@ class Calculation:
             cols = [i for i in excel]
 
             FileNames.objects.all().delete()
-            queryset = [dict(zip(cols, i)) for i in excel.values]
+            # queryset = [dict(zip(cols, i)) for i in excel.values]
             for index, row in excel.iterrows():
                 model = FileNames()
                 model.filename = row['filename']
@@ -122,31 +127,32 @@ class Calculation:
                     df = df[df["Product Name"].str.contains(f"{lst}") == False]
                 df = df.iloc[0::, 4:9]
                 df['shape'], df['filename'], df['dealer_name'] = shape, filename, dealer_name
-                print(df.head())
             for k, v in edit_dict.items():
                 df.rename({f'{k}': f'{v}'}, axis=1, inplace=True)
+            if df['dealer_name'].any() != 'unknown':
+                try:
+                    data_list.append(df[[colname for colname in edit_dict.values()]])
+                except KeyError as ex:
+                    for col in ['dealer_name', 'delivery', 'description']:
+                        try:
+                            df.insert(loc=0, column=f'{col}', value=None)
+                        except Exception as ex:
+                            pass
+                    df = df[statndard]
 
-            try:
-                data_list.append(df[[colname for colname in edit_dict.values()]])
-            except KeyError as ex:
-                for col in ['dealer_name', 'delivery', 'description']:
-                    try:
-                        df.insert(loc=0, column=f'{col}', value=None)
-                    except Exception as ex:
-                        pass
-                df = df[statndard]
+                    data_list.append(df[[colname for colname in edit_dict.values()]])
+            dataframes = pd.concat(data_list)
+            dataframes['last_modified'] = datetime.datetime.now()
+            dataframes.to_sql('detector_products', engine, if_exists='append', index=False, index_label=None,
+                              method=None)
 
-                data_list.append(df[[colname for colname in edit_dict.values()]])
-        dataframes = pd.concat(data_list)
-        dataframes['last_modified'] = datetime.datetime.now()
-        dataframes.to_sql('detector_products', engine, if_exists='append', index=False, index_label=None, method=None)
+            df_from_db = pd.read_sql_table(con=engine, table_name='detector_products')
+            uniq = df_from_db.sort_values('last_modified').drop_duplicates(subset='part_number')
+            Products.objects.all().delete()
 
-        df_from_db = pd.read_sql_table(con=engine, table_name='detector_products')
-        uniq = df_from_db.sort_values('last_modified').drop_duplicates(subset='part_number')
-        Products.objects.all().delete()
-
-        uniq.to_sql('detector_products', engine, if_exists='replace', index=False, index_label=None, method=None)
-
+            uniq.to_sql('detector_products', engine, if_exists='replace', index=False, index_label=None, method=None)
+        else:
+            pass
         return uniq
 
     @staticmethod
