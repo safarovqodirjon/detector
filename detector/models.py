@@ -38,7 +38,7 @@ class Products(models.Model):
     description = models.TextField(blank=True, null=True)
     on_stock = models.CharField(max_length=255, blank=True, null=True)
     delivery = models.IntegerField(blank=True, null=True)
-    last_modified = models.DateTimeField(null=False)
+    last_modified = models.DateTimeField()
     filename = models.CharField(null=True, blank=True, max_length=255)
     shape = models.CharField(null=True, blank=True, max_length=255)
 
@@ -56,3 +56,9 @@ class FileNames(models.Model):
     shape = models.CharField(max_length=255, null=True, blank=True)
     dealer_name = models.CharField(max_length=255, null=True, blank=True)
     filename2 = models.CharField(default=filename, max_length=255)
+
+
+class UploadHistory(models.Model):
+    filename = models.CharField(max_length=255)
+    shape = models.CharField(max_length=255)
+    uploaded_on = models.DateTimeField(blank=False, null=filename)

@@ -79,27 +79,27 @@ WSGI_APPLICATION = 'spare_parts.wsgi.application'
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'dbjulh0nu26mt8',
-#         'USER': 'yimpwzehvxdnpd',
-#         'PASSWORD': '1230e673eef1483094982314c43771209f4aec1193de94b180e5dcbe3a55435c',
-#         'HOST': 'ec2-3-248-121-12.eu-west-1.compute.amazonaws.com',
-#         'PORT': '5432',
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'detectordb',
-        'USER': 'postgres',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
+        'NAME': 'dbjulh0nu26mt8',
+        'USER': 'yimpwzehvxdnpd',
+        'PASSWORD': '1230e673eef1483094982314c43771209f4aec1193de94b180e5dcbe3a55435c',
+        'HOST': 'ec2-3-248-121-12.eu-west-1.compute.amazonaws.com',
         'PORT': '5432',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'detectordb',
+#         'USER': 'postgres',
+#         'PASSWORD': 'root',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -124,8 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Europe/London'
-
+TIME_ZONE = 'Asia/Dushanbe'
 USE_I18N = True
 
 USE_TZ = True
@@ -139,7 +138,7 @@ USE_TZ = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 MEDIA_URL = "media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 

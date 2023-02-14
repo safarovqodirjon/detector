@@ -33,8 +33,7 @@ def upload_files(request):
     else:
 
         dc_dfs = FileNames.objects.all()
-        for dc in dc_dfs:
-            print(dc.filename, dc.shape)
+
         if isinstance(dc_dfs, Exception):
             wrong = True
         else:
@@ -58,6 +57,20 @@ def load_to_db(request):
     Calculation.load_to(file_lst)
 
     return redirect('detector:upload')
+
+
+def export(request):
+    try:
+        response = HttpResponse(content_type='application/vnd.ms-excel')
+        response['Content-Disposition'] = f'attachment; filename=export.xlsx'
+        result = Calculation.export()
+        result.to_excel(response, index=False)
+    except Exception as ex:
+        response = HttpResponse(content_type='application/vnd.ms-excel')
+        response['Content-Disposition'] = f'attachment; filename=empty.xlsx'
+        result = pd.DataFrame({})
+        result.to_excel(response, index=False)
+    return response
 
 
 def see(request, id):
