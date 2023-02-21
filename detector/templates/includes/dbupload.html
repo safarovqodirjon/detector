@@ -1,0 +1,77 @@
+{% if dict_list_mgs %}
+    <div class="row">
+        <div class="col-xl-6 col-xxl-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div class="alert alert-success">
+                            <h3 class="">Success!</h3>
+
+                            {% for item in  dict_list_mgs %}
+
+                                {% if item.dealer_name != "unknown" %}<h4>{{ item.filename }} ===
+                                    {{ item.dealer_name }}{% endif %}</h4>
+                            {% endfor %}
+                            <div class="p-2">
+
+                            </div>
+                            <h4>was uploaded</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<div class="row">
+    <div class="col-xl-6 col-xxl-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Uploaded to Database</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-responsive-sm text-dark"
+                           style="border: #0c0c0c">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>FileName</th>
+                            <th>FileShape</th>
+                            <th>LastModified</th>
+                        </tr>
+                        </thead>
+                        {% if your_sheets %}
+
+                            <tbody>
+
+                            {% for item in your_sheets %}
+                                <tr>
+                                    <td><a>{{ item.dealer_name }}</a></td>
+                                    <td><a>{{ item.filename }}</a></td>
+                                    <td>{{ item.shape }}</td>
+                                    <td>{{ item.last_modified }}</td>
+
+
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        {% endif %}
+
+                    </table>
+                </div>
+                <div class="input-group-prepend">
+
+                    <a class="btn btn-default btn-sm"
+                       style="background-color: grey"
+                       href="{% url 'detector:export' %}">
+                        Export
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

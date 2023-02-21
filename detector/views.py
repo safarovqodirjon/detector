@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse, HttpResponseRedirect, Http404
-from .models import Document, FileNames, Products
+from .models import Document, FileNames, Products, ActionStatus
 import pandas as pd
 import os
 from django.conf import settings
@@ -16,6 +16,11 @@ def index(request):
 
 
 def upload_files(request):
+    flag = ActionStatus.objects.all().first().remove
+    if flag == 'True':
+        flag = True
+    else:
+        flag = False
     if request.method == 'POST':
         if request.FILES:
             dc_dfs = Calculation.to_dc(request.FILES.getlist('myfiles'))
@@ -23,15 +28,17 @@ def upload_files(request):
                 wrong = True
             else:
                 wrong = False
+
             context = {
                 'wrong': wrong,
+                'flag': flag,
+                'show': True,
                 'dict_list': dc_dfs,
                 'your_sheets': Products.objects.filter(
                 ).values('dealer_name', 'shape', 'filename', 'last_modified').distinct()
             }
             return render(request, 'index.html', context=context)
     else:
-
         dc_dfs = FileNames.objects.all()
 
         if isinstance(dc_dfs, Exception):
@@ -40,9 +47,14 @@ def upload_files(request):
             wrong = False
 
         context = {
+            'show': False,
+            'flag': flag,
+            # 'rm': rm,
             'wrong': wrong,
             'checked': False,
             'dict_list': dc_dfs,
+            'dict_list_mgs': dc_dfs,
+
             'your_sheets': Products.objects.filter(
             ).values('dealer_name', 'shape', 'filename', 'last_modified').distinct()
         }
@@ -53,10 +65,13 @@ def upload_files(request):
 def load_to_db(request):
     objs = FileNames.objects.all()
     file_lst = [name.filename for name in objs]
-
+    ActionStatus.objects.all().delete()
+    obj = ActionStatus()
+    obj.remove = 'False'
+    obj.save()
     Calculation.load_to(file_lst)
 
-    return redirect('detector:upload')
+    return redirect('detector:upload', )
 
 
 def export(request):
@@ -90,8 +105,15 @@ def remove(request, id):
         abs = os.path.join(settings.MEDIA_ROOT, f"documents/temp/{path}")
         os.remove(abs)
         FileNames.objects.get(pk=id).delete()
+        ActionStatus.objects.all().delete()
+        obj = ActionStatus()
+        obj.remove = 'True'
+        obj.save()
     except Exception as ex:
-        pass
+        ActionStatus.objects.all().delete()
+        obj = ActionStatus()
+        obj.remove = 'True'
+        obj.save()
     return redirect('detector:upload')
 
 

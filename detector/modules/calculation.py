@@ -134,7 +134,8 @@ class Calculation:
             for k, v in edit_dict.items():
                 df.rename({f'{k}': f'{v}'}, axis=1, inplace=True)
 
-            if df['dealer_name'].any() != 'unknown':
+            if df['dealer_name'].iloc[0] != 'unknown':
+                print(df['dealer_name'].iloc[0])
                 try:
                     lst = [colname for colname in edit_dict.values()]
 
@@ -145,6 +146,10 @@ class Calculation:
                             df.insert(loc=0, column=f'{col}', value=None)
                         except Exception as ex:
                             pass
+            else:
+                print('yesyes')
+                return None
+
             df = df[statndard]
             data_list2.append(df)
 

@@ -62,3 +62,8 @@ class UploadHistory(models.Model):
     filename = models.CharField(max_length=255)
     shape = models.CharField(max_length=255)
     uploaded_on = models.DateTimeField(blank=False, null=filename)
+
+
+class ActionStatus(models.Model):
+    remove = models.CharField(blank=True, null=True, max_length=200)
+    see = models.CharField(blank=True, null=True, max_length=200)
